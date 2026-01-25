@@ -5,6 +5,10 @@ import { motion } from "framer-motion";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 import { Award, GraduationCap, BookOpen, Users } from "lucide-react";
+import Image from "next/image";
+import DrRaghu from "@/public/images/Dr_Raghu_Chovvath.jpg";
+import DrRamesh from "@/public/images/Dr_Ramesh_Malladi.jpg";
+import { StaticImageData } from "next/image";
 
 interface TeamMember {
     name: string;
@@ -12,6 +16,7 @@ interface TeamMember {
     role: string;
     bio: string[];
     highlights: string[];
+    image: StaticImageData;
 }
 
 const teamMembers: TeamMember[] = [
@@ -32,6 +37,7 @@ const teamMembers: TeamMember[] = [
             "Clinical Instructor at Wayne State University",
             "Visiting Faculty at Sri Ramachandra Institute, Chennai",
         ],
+        image: DrRaghu,
     },
     {
         name: "Dr. Ramesh Malladi",
@@ -51,6 +57,7 @@ const teamMembers: TeamMember[] = [
             "Clinical Instructor at Wayne State University",
             "Published Researcher & International Educator",
         ],
+        image: DrRamesh,
     },
 ];
 
@@ -83,94 +90,14 @@ function TeamMemberCard({
             >
                 <div className="relative aspect-[4/5] max-w-sm mx-auto lg:mx-0 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--color-primary-100)] to-[var(--color-secondary-100)]">
                     {/* Professional Avatar Illustration */}
-                    <svg
-                        viewBox="0 0 300 375"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-full h-full"
-                        aria-hidden="true"
-                    >
-                        {/* Background pattern */}
-                        <rect width="300" height="375" fill="url(#teamMemberBg)" />
-
-                        {/* Professional figure */}
-                        <g transform="translate(75, 40)">
-                            {/* Head */}
-                            <circle cx="75" cy="55" r="45" fill="var(--color-primary-300)" />
-                            {/* Face details */}
-                            <circle cx="60" cy="50" r="4" fill="var(--color-primary-600)" />
-                            <circle cx="90" cy="50" r="4" fill="var(--color-primary-600)" />
-                            <path
-                                d="M65 70 Q75 80 85 70"
-                                stroke="var(--color-primary-600)"
-                                strokeWidth="3"
-                                fill="none"
-                                strokeLinecap="round"
-                            />
-
-                            {/* Body - Medical coat */}
-                            <path
-                                d="M30 110 L45 105 L75 100 L105 105 L120 110 L130 200 L75 210 L20 200 Z"
-                                fill="white"
-                                stroke="var(--color-neutral-200)"
-                                strokeWidth="1"
-                            />
-
-                            {/* Coat collar */}
-                            <path
-                                d="M55 105 L75 115 L95 105"
-                                stroke="var(--color-primary-400)"
-                                strokeWidth="2"
-                                fill="none"
-                            />
-
-                            {/* Stethoscope */}
-                            <circle cx="75" cy="140" r="10" fill="var(--color-primary-500)" />
-                            <path
-                                d="M65 140 Q55 120 60 105"
-                                stroke="var(--color-primary-600)"
-                                strokeWidth="3"
-                                fill="none"
-                            />
-                            <path
-                                d="M85 140 Q95 120 90 105"
-                                stroke="var(--color-primary-600)"
-                                strokeWidth="3"
-                                fill="none"
-                            />
-
-                            {/* Pocket with pen */}
-                            <rect x="85" y="130" width="20" height="25" rx="3" fill="var(--color-neutral-100)" />
-                            <rect x="92" y="125" width="3" height="15" rx="1" fill="var(--color-primary-500)" />
-
-                            {/* Legs */}
-                            <rect x="55" y="200" width="18" height="70" rx="8" fill="var(--color-neutral-300)" />
-                            <rect x="77" y="200" width="18" height="70" rx="8" fill="var(--color-neutral-300)" />
-                        </g>
-
-                        {/* Decorative elements */}
-                        <circle cx="40" cy="60" r="8" fill="var(--color-accent-400)" opacity="0.4" />
-                        <circle cx="260" cy="100" r="6" fill="var(--color-secondary-400)" opacity="0.5" />
-                        <circle cx="250" cy="300" r="10" fill="var(--color-primary-300)" opacity="0.3" />
-
-                        {/* Plus signs */}
-                        <g fill="var(--color-primary-400)" opacity="0.4">
-                            <rect x="30" y="320" width="14" height="4" rx="2" />
-                            <rect x="35" y="315" width="4" height="14" rx="2" />
-                            <rect x="250" y="50" width="14" height="4" rx="2" />
-                            <rect x="255" y="45" width="4" height="14" rx="2" />
-                        </g>
-
-                        <defs>
-                            <linearGradient id="teamMemberBg" x1="0" y1="0" x2="300" y2="375">
-                                <stop stopColor="var(--color-primary-100)" />
-                                <stop offset="1" stopColor="var(--color-secondary-100)" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-
+                    <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                    />
                     {/* Credential Badge */}
-                    <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                    <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg text-center">
                         <p className="font-bold text-[var(--color-neutral-900)] text-sm">
                             {member.credentials}
                         </p>
