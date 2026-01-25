@@ -1,36 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Healing Hands Physical Therapy Website
+
+A modern, SEO-optimized website for Healing Hands Physical Therapy Associates LLC, built with Next.js 14, TypeScript, and Tailwind CSS.
+
+## Features
+
+- 🎨 **Modern Design**: Clean, professional healthcare aesthetic with smooth animations
+- 📱 **Fully Responsive**: Mobile-first design that works on all devices
+- ⚡ **Optimized Performance**: Fast load times with Next.js static generation
+- 🔍 **SEO Ready**: Complete meta tags, structured data, sitemap, and robots.txt
+- ♿ **Accessible**: ARIA labels, keyboard navigation, and proper color contrast
+- 📝 **Form Validation**: Contact form with client-side validation using Zod
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Form Handling**: React Hook Form + Zod
+- **Icons**: Lucide React
+
+## Project Structure
+
+```
+├── app/
+│   ├── layout.tsx          # Root layout with SEO metadata
+│   ├── page.tsx             # Home page
+│   ├── about/page.tsx       # About page
+│   ├── services/page.tsx    # Services page
+│   ├── contact/page.tsx     # Contact page
+│   ├── sitemap.ts           # Dynamic sitemap
+│   └── robots.ts            # Robots.txt config
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx       # Navigation bar
+│   │   └── Footer.tsx       # Footer
+│   ├── sections/
+│   │   ├── HeroSection.tsx
+│   │   ├── WhyUsSection.tsx
+│   │   ├── ServicesPreviewSection.tsx
+│   │   ├── AboutPreviewSection.tsx
+│   │   ├── CTASection.tsx
+│   │   └── ...
+│   └── ui/
+│       ├── Button.tsx
+│       ├── Section.tsx
+│       └── ServiceCard.tsx
+├── lib/
+│   ├── config.ts            # Site configuration
+│   └── utils.ts             # Utility functions
+└── public/                   # Static assets
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.17 or later
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd healing-hands-mipt
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Build for Production
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Start Production Server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Configuration
 
-## Learn More
+### Site Configuration
 
-To learn more about Next.js, take a look at the following resources:
+All site-wide settings (contact info, services, navigation) are centralized in `lib/config.ts`. Update this file to change:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Company name and description
+- Contact information (phone, email, address)
+- Business hours
+- Social media links
+- Services offered
+- Navigation structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Styling
 
-## Deploy on Vercel
+The design system is defined in `app/globals.css`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Color palette (primary teal, secondary sage, accent amber)
+- Typography scale
+- Utility classes
+- Custom animations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+This site is ready for deployment on any platform that supports Next.js:
+
+- **Vercel** (recommended): `vercel`
+- **Netlify**: `netlify deploy`
+- **Docker**: Build and run the container
+
+### Environment Variables
+
+No environment variables are required for basic deployment. For form submissions in production, you'll need to configure your form handling backend.
+
+## Customization
+
+### Updating Content
+
+1. **Contact Information**: Edit `lib/config.ts`
+2. **Services**: Edit the `services` array in `lib/config.ts`
+3. **Colors**: Modify CSS custom properties in `app/globals.css`
+4. **Images**: Add to `public/` directory and reference in components
+
+### Adding Pages
+
+1. Create a new directory in `app/` (e.g., `app/new-page/`)
+2. Add a `page.tsx` file with your content
+3. Update navigation in `lib/config.ts`
+
+## License
+
+All rights reserved. This website is property of Healing Hands Physical Therapy Associates LLC.
