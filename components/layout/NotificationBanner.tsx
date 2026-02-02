@@ -39,7 +39,7 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
             role="alert"
             aria-live="polite"
             className="
-      fixed top-20 left-1/2 z-40
+      fixed top-25 left-1/2 z-40
       -translate-x-1/2
       w-full px-3
       max-w-[640px] lg:max-w-[50%]
