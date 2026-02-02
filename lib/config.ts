@@ -1,14 +1,14 @@
 // Site-wide configuration constants
 
 export const siteConfig = {
-    name: "Healing Hands Physical Therapy",
-    shortName: "Healing Hands PT",
+    name: "Healing Hands Physical Therapy Associates LLC",
+    shortName: "Healing Hands Physical Therapy Associates LLC",
     description:
         "Stop Hurting. Start Healing. Personalized, evidence-based physical therapy care for Livonia, Novi, Farmington and all of Wayne & Oakland County.",
     url: "https://healinghandsmipt.com",
     ogImage: "/og-image.jpg",
     links: {
-        phone: "(248) 555-0123",
+        phone: "248 560 7994",
         email: "info@healinghandsmipt.com",
         address: {
             street: "12345 Middlebelt Road",
@@ -17,6 +17,7 @@ export const siteConfig = {
             zip: "48154",
             full: "12345 Middlebelt Road, Livonia, MI 48154",
         },
+        fax: "(248) 617-2026"
     },
     hours: {
         weekdays: "Monday - Friday: 8:00 AM - 6:00 PM",

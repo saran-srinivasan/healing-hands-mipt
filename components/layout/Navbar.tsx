@@ -19,16 +19,16 @@ export function Navbar() {
     );
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[var(--color-neutral-100)]">
-            <nav className="container flex items-center justify-between h-16 md:h-20">
+        <header className="sticky top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[var(--color-neutral-100)]">
+            <nav className="container flex items-center justify-between h-20 md:h-24 pl-6 md:pl-16">
                 {/* Logo */}
                 <Link
                     href="/"
-                    className="flex items-center gap-2 font-bold text-xl text-[var(--color-primary-700)]"
+                    className="flex items-center gap-3 font-bold text-[var(--color-primary-700)]"
                     aria-label={`${siteConfig.shortName} - Home`}
                 >
-                    <Image src={HHPT_logo} alt="Healing Hands Physical Therapy Associates Logo" width={50} height={50} />
-                    <span className="hidden sm:inline">{siteConfig.shortName}</span>
+                    <Image src={HHPT_logo} alt="Healing Hands Physical Therapy Associates Logo" width={70} height={70} />
+                    <span className="text-sm sm:text-xl leading-tight">{siteConfig.shortName}</span>
                 </Link>
 
                 {/* Desktop Navigation */}

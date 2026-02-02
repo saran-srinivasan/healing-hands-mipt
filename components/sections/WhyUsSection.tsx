@@ -54,7 +54,7 @@ export function WhyUsSection() {
     return (
         <Section className="bg-white" id="why-us">
             <SectionHeading
-                title="Why Choose Healing Hands?"
+                title="Why Choose Healing Hands Physical Therapy?"
                 subtitle="We're not just another PT clinic. We're your partners in recovery, committed to exceptional care that gets results."
             />
 

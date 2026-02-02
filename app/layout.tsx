@@ -4,6 +4,8 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/lib/config";
+import { getNotifications } from "@/lib/notifications";
+import { NotificationBanner } from "@/components/layout/NotificationBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -84,11 +86,14 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const notifications = await getNotifications();
+  console.log("Notifications:", notifications);
+
   return (
     <html lang="en" className="scroll-smooth">
       <head>
@@ -151,8 +156,9 @@ export default function RootLayout({
         </a>
 
         <Navbar />
+        <NotificationBanner notifications={notifications} />
 
-        <main id="main-content" className="flex-grow pt-16 md:pt-20">
+        <main id="main-content" className="flex-grow">
           {children}
         </main>
 

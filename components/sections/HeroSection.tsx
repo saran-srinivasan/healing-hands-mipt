@@ -17,28 +17,37 @@ const heroSlides = [
     {
         id: 1,
         headline: "Stop Hurting. Start Healing.",
+        chipTagline: "Personalized, evidence-based physical therapy care",
         subheadline:
             "Personalized, evidence-based physical therapy care for Livonia, Novi, Farmington and all of Wayne & Oakland County.",
         cta: "Book Your Appointment",
+        ctaLink: "/contact",
         secondaryCta: "View Our Services",
+        secondaryCtaLink: "/services",
         image: HHPT1,
     },
     {
         id: 2,
         headline: "Board Certified Specialists",
+        chipTagline: "70+ years of combined clinical experience",
         subheadline:
             "Over 70 years of combined clinical experience delivering faster, superior functional outcomes.",
         cta: "Meet Our Team",
+        ctaLink: "/about",
         secondaryCta: "Learn About Us",
+        secondaryCtaLink: "/about",
         image: HHPT2,
     },
     {
         id: 3,
         headline: "One-on-One Care",
+        chipTagline: "Personalized evaluation and treatment",
         subheadline:
             "Every patient receives personalized evaluation and treatment from fellowship-trained orthopedic physical therapists.",
         cta: "Start Your Recovery",
+        ctaLink: "/contact",
         secondaryCta: "Our Approach",
+        secondaryCtaLink: "/about",
         image: HHPT3,
     },
 ];
@@ -122,7 +131,7 @@ export function HeroSection() {
                                     transition={{ delay: 0.2 }}
                                     className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-[var(--color-primary-700)] bg-[var(--color-primary-100)] rounded-full"
                                 >
-                                    {siteConfig.companyInfo.credentials}
+                                    {heroSlides[currentSlide].chipTagline}
                                 </motion.span>
 
                                 <h1 className="mb-6 text-balance">
@@ -137,10 +146,10 @@ export function HeroSection() {
 
                                 <div className="flex flex-col sm:flex-row mt-8 gap-4">
                                     <Button size="lg" rightIcon={<ArrowRight className="w-5 h-5" />}>
-                                        <Link href="/contact">{heroSlides[currentSlide].cta}</Link>
+                                        <Link href={heroSlides[currentSlide].ctaLink}>{heroSlides[currentSlide].cta}</Link>
                                     </Button>
                                     <Button variant="outline" size="lg">
-                                        <Link href="/services">{heroSlides[currentSlide].secondaryCta}</Link>
+                                        <Link href={heroSlides[currentSlide].secondaryCtaLink}>{heroSlides[currentSlide].secondaryCta}</Link>
                                     </Button>
                                 </div>
                             </motion.div>

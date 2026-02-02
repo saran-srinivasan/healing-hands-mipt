@@ -113,9 +113,9 @@ function TeamMemberCard({
                 )}
             >
                 <div>
-                    <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold text-[var(--color-primary-700)] bg-[var(--color-primary-100)] rounded-full">
+                    {/* <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold text-[var(--color-primary-700)] bg-[var(--color-primary-100)] rounded-full">
                         {member.role}
-                    </span>
+                    </span> */}
                     <h3 className="text-2xl md:text-3xl font-bold text-[var(--color-neutral-900)]">
                         {member.name}
                     </h3>
