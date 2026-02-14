@@ -7,6 +7,7 @@ import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { Award, Users, Target, Heart, Check } from "lucide-react";
 import { TeamSection } from "./TeamSection";
+import { Activity, History, Sparkles } from "lucide-react";
 
 const values = [
     {
@@ -162,45 +163,71 @@ export function AboutPageContent() {
                         </div>
                     </motion.div>
 
-                    {/* Content */}
                     <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
+                        className="relative"
                     >
-                        <span className="inline-block px-4 py-2 mb-4 text-sm font-semibold text-[var(--color-primary-700)] bg-[var(--color-primary-100)] rounded-full">
-                            Our Story
-                        </span>
+                        {/* Decorative Background Blob (Optional subtle flair) */}
+                        <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--color-primary-100)] rounded-full blur-3xl opacity-50 pointer-events-none" />
 
-                        <h2 className="mb-6">{siteConfig.companyInfo.fullName}</h2>
-
-                        <div className="space-y-4 text-[var(--color-neutral-600)] leading-relaxed">
-                            <p>
-                                At Healing Hands Physical Therapy Associates LLC, we believe that true recovery happens where science meets sincerity. We don't just treat symptoms; we treat people.
-                            </p>
-                            <p>Our practice is built on a foundation of cutting-edge research and evidence-based techniques, ensuring you receive the most advanced care available today. However, we know that data is only half the story. That's why we combine our clinical expertise with a personal touch, crafting a tailor-made recovery plan designed specifically for your unique goals and lifestyle.</p>
-                            <p>When you walk through our doors, you can expect the same exceptional quality of service that you have known and trusted at Alternative Rehab for over 25 years. We are carrying forward that legacy of excellence, commitment, and community—now enhanced by modern innovations to help you move better, feel stronger, and live pain-free.</p>
+                        {/* Section Tag */}
+                        <div className="flex items-center gap-3 mb-6">
+                            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--color-primary-100)] text-[var(--color-primary-700)]">
+                                <Sparkles className="w-4 h-4" />
+                            </span>
+                            <span className="font-bold tracking-wider text-[var(--color-primary-700)] uppercase text-xs">
+                                Our Story
+                            </span>
                         </div>
 
-                        {/* Credentials */}
-                        {/* <div className="mt-8 p-6 bg-[var(--color-neutral-50)] rounded-2xl">
-                            <h3 className="font-bold text-[var(--color-neutral-900)] mb-4">
-                                Our Specializations
-                            </h3>
-                            <ul className="grid sm:grid-cols-2 gap-3">
-                                {siteConfig.companyInfo.specializations.map((item, index) => (
-                                    <li key={index} className="flex items-start gap-3">
-                                        <div className="w-5 h-5 mt-0.5 rounded-full bg-[var(--color-primary-100)] flex items-center justify-center shrink-0">
-                                            <Check className="w-3 h-3 text-[var(--color-primary-600)]" />
-                                        </div>
-                                        <span className="text-sm text-[var(--color-neutral-700)]">
-                                            {item}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div> */}
+                        {/* Main Headline */}
+                        {/* Mobile safe version: Wraps normally on phone, Single line on Tablet/Desktop */}
+                        <h2 className="text-xl font-bold text-[var(--color-neutral-900)] mb-6 leading-tight md:whitespace-nowrap">
+                            We don't just treat symptoms <br />
+                            <span className="text-[var(--color-primary-600)]">We treat people.</span>
+                        </h2>
+
+
+
+                        {/* The "Hook" - Large Lead Text */}
+                        <p className="text-lg md:text-xl font-medium text-[var(--color-neutral-800)] leading-relaxed mb-8">
+                            At {siteConfig.companyInfo.fullName}, we don't just treat symptoms—we treat people. True recovery happens where clinical expertise meets genuine compassion.
+                        </p>
+
+                        {/* Detailed Content with Visual Border */}
+                        <div className="pl-6 border-l-4 border-[var(--color-primary-200)] space-y-6 text-[var(--color-neutral-600)] mb-10">
+                            <p className="leading-relaxed mb-5 mt-5 py-2">
+                                Our practice is built on a foundation of <strong>cutting-edge research</strong> and evidence-based techniques, ensuring you receive the most advanced care available today. But data is only half the story.
+                            </p>
+                            <p className="leading-relaxed mb-5 mt-5 py-2">However, we know that data is only half the story. That's why we combine our clinical expertise with a personal touch, crafting a tailor-made recovery plan designed specifically for your unique goals and lifestyle.</p>
+                            <p className="leading-relaxed mb-5 mt-5 py-2">When you walk through our doors, you can expect the same exceptional quality of service that you have known and trusted at <strong>Alternative Rehab for over 25 years.</strong> We are carrying forward that legacy of excellence, commitment, and community—now enhanced by modern innovations to help you move better, feel stronger, and live pain-free.</p>
+                        </div>
+
+                        {/* Key Highlights Grid (Visual Trust Builders) */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="flex items-start gap-3 p-4 rounded-xl bg-[var(--color-neutral-50)] border border-[var(--color-neutral-100)] hover:border-[var(--color-primary-200)] transition-colors">
+                                <History className="w-5 h-5 text-[var(--color-primary-600)] mt-1 shrink-0" />
+                                <div>
+                                    <h4 className="font-semibold text-[var(--color-neutral-900)]">Legacy of Trust</h4>
+                                    <p className="text-sm text-[var(--color-neutral-500)] mt-1">
+                                        Continuing the 25+ year excellence of Alternative Rehab.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-3 p-4 rounded-xl bg-[var(--color-neutral-50)] border border-[var(--color-neutral-100)] hover:border-[var(--color-primary-200)] transition-colors">
+                                <Activity className="w-5 h-5 text-[var(--color-primary-600)] mt-1 shrink-0" />
+                                <div>
+                                    <h4 className="font-semibold text-[var(--color-neutral-900)]">Modern Innovations</h4>
+                                    <p className="text-sm text-[var(--color-neutral-500)] mt-1">
+                                        Enhanced techniques to help you move better and live pain-free.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </Section>
