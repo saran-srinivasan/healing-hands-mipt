@@ -38,8 +38,29 @@ const values = [
 export function AboutPageContent() {
     return (
         <>
-            {/* Hero Banner */}
             <section className="relative py-16 md:py-24 bg-gradient-to-br from-[var(--color-primary-50)] to-[var(--color-secondary-50)]">
+                <div className="container">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="max-w-3xl mx-auto text-center"
+                    >
+                        <h1 className="mb-6">
+                            <span className="gradient-text">Meet Our Expert Team</span>
+                        </h1>
+                        <p className="text-lg md:text-xl text-[var(--color-neutral-600)]">
+                            Board-certified specialists with decades of experience dedicated to your recovery
+                        </p>
+                    </motion.div>
+                </div>
+            </section>
+
+            <section>
+                <TeamSection />
+            </section>
+            {/* Hero Banner */}
+            <section id="about-us" className="relative py-16 md:py-24 bg-gradient-to-br from-[var(--color-primary-50)] to-[var(--color-secondary-50)]">
                 <div className="container">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -156,18 +177,14 @@ export function AboutPageContent() {
 
                         <div className="space-y-4 text-[var(--color-neutral-600)] leading-relaxed">
                             <p>
-                                At Healing Hands Physical Therapy, every patient receives a
-                                one-on-one evaluation and personalized treatment from
-                                board-certified, fellowship-trained orthopedic physical
-                                therapists with over 70 years of combined extensive clinical
-                                experience.
+                                At Healing Hands Physical Therapy Associates LLC, we believe that true recovery happens where science meets sincerity. We don't just treat symptoms; we treat people.
                             </p>
-                            <p>{siteConfig.companyInfo.approach}</p>
-                            <p>{siteConfig.companyInfo.history}</p>
+                            <p>Our practice is built on a foundation of cutting-edge research and evidence-based techniques, ensuring you receive the most advanced care available today. However, we know that data is only half the story. That's why we combine our clinical expertise with a personal touch, crafting a tailor-made recovery plan designed specifically for your unique goals and lifestyle.</p>
+                            <p>When you walk through our doors, you can expect the same exceptional quality of service that you have known and trusted at Alternative Rehab for over 25 years. We are carrying forward that legacy of excellence, commitment, and community—now enhanced by modern innovations to help you move better, feel stronger, and live pain-free.</p>
                         </div>
 
                         {/* Credentials */}
-                        <div className="mt-8 p-6 bg-[var(--color-neutral-50)] rounded-2xl">
+                        {/* <div className="mt-8 p-6 bg-[var(--color-neutral-50)] rounded-2xl">
                             <h3 className="font-bold text-[var(--color-neutral-900)] mb-4">
                                 Our Specializations
                             </h3>
@@ -183,14 +200,12 @@ export function AboutPageContent() {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </div> */}
                     </motion.div>
                 </div>
             </Section>
 
-            <section>
-                <TeamSection />
-            </section>
+
 
             {/* Values Section */}
             <Section className="bg-[var(--color-neutral-50)]">

@@ -10,7 +10,7 @@ const features = [
         icon: Award,
         title: "Board Certified Specialists",
         description:
-            "Fellowship-trained orthopedic physical therapists with proven clinical expertise.",
+            "Featuring Board Certified Specialists and Fellowship-trained orthopedic physical therapists dedicated to the highest standard of clinical excellence.",
     },
     {
         icon: Users,
@@ -22,7 +22,7 @@ const features = [
         icon: Stethoscope,
         title: "Evidence-Based Approach",
         description:
-            "Biopsychosocial methods that deliver faster, superior outcomes vs. benchmarks.",
+            "Biopsychosocial methods that consistently deliver faster, superior outcomes compared to benchmarks, with approaches that are continually updated as new evidence and clinical knowledge emerge.",
     },
     {
         icon: Clock,

@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/config";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-
 // Importing the 3 images
 import HHPT1 from "@/public/images/HHPT_1.jpg";
 import HHPT2 from "@/public/images/HHPT_2.jpg";
@@ -35,7 +34,7 @@ const heroSlides = [
         cta: "Meet Our Team",
         ctaLink: "/about",
         secondaryCta: "Learn About Us",
-        secondaryCtaLink: "/about",
+        secondaryCtaLink: "/about#about-us",
         image: HHPT2,
     },
     {
@@ -47,7 +46,7 @@ const heroSlides = [
         cta: "Start Your Recovery",
         ctaLink: "/contact",
         secondaryCta: "Our Approach",
-        secondaryCtaLink: "/about",
+        secondaryCtaLink: "/#why-us",
         image: HHPT3,
     },
 ];
@@ -69,6 +68,7 @@ export function HeroSection() {
         const interval = setInterval(nextSlide, 6000);
         return () => clearInterval(interval);
     }, [isPaused, nextSlide]);
+
 
     return (
         <section
@@ -115,6 +115,7 @@ export function HeroSection() {
 
             <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 items-center">
+
                     {/* Text Content - left column */}
                     <div className="max-w-2xl lg:col-span-6">
                         <AnimatePresence mode="wait">
@@ -129,10 +130,10 @@ export function HeroSection() {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.2 }}
-                                    className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-[var(--color-primary-700)] bg-[var(--color-primary-100)] rounded-full"
-                                >
+                                    className="inline-flex items-center px-2.5 py-1 text-[10px] leading-none mb-4 font-semibold text-[var(--color-primary-700)] bg-[var(--color-primary-100)] rounded-full sm:px-4 sm:py-2 sm:text-xs sm:leading-normal sm:mb-6">
                                     {heroSlides[currentSlide].chipTagline}
                                 </motion.span>
+
 
                                 <h1 className="mb-6 text-balance">
                                     <span className="gradient-text">

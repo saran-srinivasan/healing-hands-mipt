@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { siteConfig } from "@/lib/config";
@@ -14,53 +14,18 @@ import {
     Check,
     type LucideIcon,
 } from "lucide-react";
+import { DizzinessIcon } from "@/components/ui/icons/DizzinessIcon";
+
+
 
 // Icon mapping
-const iconMap: Record<string, LucideIcon> = {
+const iconMap: Record<string, LucideIcon | typeof DizzinessIcon> = {
     Activity,
     Dumbbell,
     Heart,
     Zap,
     Spine: Activity,
-};
-
-// Detailed service benefits
-const serviceDetails: Record<string, string[]> = {
-    "orthopedic-sports": [
-        "Post-surgical rehabilitation programs",
-        "Sports injury recovery and prevention",
-        "Joint replacement rehabilitation",
-        "Sprains, strains, and tendonitis treatment",
-        "Return-to-sport performance optimization",
-    ],
-    "spine-extremity": [
-        "Neck and back pain treatment",
-        "Spinal stabilization exercises",
-        "Manual therapy and manipulation",
-        "Posture correction programs",
-        "Shoulder, hip, knee, and ankle rehabilitation",
-    ],
-    "pelvic-health": [
-        "Male pelvic pain treatment",
-        "Pelvic floor coordination therapy",
-        "Core stabilization programs",
-        "Breathing and postural retraining",
-        "Functional strength building",
-    ],
-    "wellness-performance": [
-        "Core and postural training",
-        "Functional movement screening",
-        "Balance and fall prevention",
-        "Ergonomic assessments",
-        "Personalized home exercise plans",
-    ],
-    "specialized-treatments": [
-        "Dry Needling for muscle tension relief",
-        "Vestibular Rehab for dizziness and vertigo",
-        "Blood Flow Restriction (BFR) Training",
-        "IASTM & Cupping therapy",
-        "Joint Manipulation & Mobilization",
-    ],
+    Dizzy: DizzinessIcon,
 };
 
 interface ServiceType {
@@ -69,6 +34,7 @@ interface ServiceType {
     tagline: string;
     description: string;
     icon: string;
+    keyBenefits?: readonly string[];
 }
 
 interface ServiceAccordionProps {
@@ -85,16 +51,16 @@ function ServiceAccordion({
     index,
 }: ServiceAccordionProps) {
     const IconComponent = iconMap[service.icon] || Activity;
-    const details = serviceDetails[service.id] || [];
+    const details = service.keyBenefits || [];
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
+            transition={{ duration: 0.2, delay: index * 0.05 }}
             id={service.id}
-            className="scroll-mt-24"
+            className="scroll-mt-32" // Added scroll margin for better positioning
         >
             <div
                 className={cn(
@@ -196,9 +162,43 @@ function ServiceAccordion({
 }
 
 export function ServicesPageContent() {
+    // Default to first service, or null if you prefer all closed initially
     const [openServiceId, setOpenServiceId] = useState<string | null>(
         siteConfig.services[0]?.id || null
     );
+
+    // Handle Deep Linking and Initial Scroll
+    useEffect(() => {
+        // Check if there is a hash in the URL (e.g., #tmj-disorders)
+        if (typeof window !== "undefined") {
+            const hash = window.location.hash.replace("#", "");
+
+            if (hash) {
+                // If hash exists, open that specific service
+                if (siteConfig.services.some((s) => s.id === hash)) {
+                    setOpenServiceId(hash);
+
+                    // Add a small delay to ensure DOM is ready and accordion starts opening
+                    setTimeout(() => {
+                        const element = document.getElementById(hash);
+                        if (element) {
+                            const headerOffset = 100; // Adjust for fixed header height
+                            const elementPosition = element.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: "smooth"
+                            });
+                        }
+                    }, 100);
+                }
+            } else {
+                // If NO hash (e.g. clicked "View All Services"), ensure we are at the top
+                window.scrollTo({ top: 0, behavior: "instant" });
+            }
+        }
+    }, []);
 
     const handleToggle = (serviceId: string) => {
         setOpenServiceId((prev) => (prev === serviceId ? null : serviceId));
@@ -215,13 +215,12 @@ export function ServicesPageContent() {
                         transition={{ duration: 0.5 }}
                         className="max-w-3xl mx-auto text-center"
                     >
-                        <h1 className="mb-6">
+                        <h1 className="mb-8">
                             <span className="gradient-text">Our Services</span>
                         </h1>
                         <p className="text-lg md:text-xl text-[var(--color-neutral-600)]">
-                            Comprehensive physical therapy services tailored to your unique
-                            needs. Our board-certified specialists use evidence-based methods
-                            to help you recover faster and prevent future injuries.
+                            <em className="font-semibold text-[var(--color-primary-600)]">Your Path to Recovery Starts Here.</em>
+                            <br /> No two injuries are the same, and neither is our approach. Whether you are sidelined by a sports injury or struggling with persistent pain, we provide personalized, evidence-based treatments that address the root cause of your symptoms. We don&apos;t just treat the injury—we treat the individual.
                         </p>
                     </motion.div>
                 </div>

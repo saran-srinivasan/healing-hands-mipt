@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { ServiceCard } from "@/components/ui/ServiceCard";
 import { siteConfig } from "@/lib/config";
@@ -9,50 +10,48 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function ServicesPreviewSection() {
+    const router = useRouter();
     // Show first 4 services on the homepage
     const previewServices = siteConfig.services.slice(0, 4);
 
+    const handleServiceClick = (serviceId: string) => {
+        // Navigate to services page with hash
+        router.push(`/services#${serviceId}`);
+    };
+
     return (
-        <Section
-            className="bg-gradient-to-b from-[var(--color-neutral-50)] to-white"
-            id="services-preview"
-        >
+        <Section id="services" className="py-20 bg-[var(--color-neutral-50)]">
             <SectionHeading
                 title="Our Services"
-                subtitle="Comprehensive physical therapy services tailored to your unique needs. From sports injuries to chronic pain, we've got you covered."
+                subtitle="Comprehensive care designed to get you back to what you love"
             />
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
+            <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-2">
                 {previewServices.map((service, index) => (
                     <ServiceCard
                         key={service.id}
                         title={service.title}
                         tagline={service.tagline}
-                        description={service.description}
+                        // Use shortDescription for the preview card
+                        description={service.shortDescription}
                         icon={service.icon}
                         index={index}
-                        onLearnMore={() => {
-                            window.location.href = `/services#${service.id}`;
-                        }}
+                        onLearnMore={() => handleServiceClick(service.id)}
                     />
                 ))}
             </div>
 
-            <div className="text-center">
+            <div className="mt-12 text-center">
                 <Link
                     href="/services"
+                    scroll={true} // Explicitly ensures scroll to top
                     className={cn(
-                        "inline-flex items-center justify-center font-semibold rounded-full transition-all duration-200 ease-in-out",
-                        "px-8 py-4 text-lg",
-                        "border-2 border-[var(--color-primary-600)] text-[var(--color-primary-600)] bg-transparent hover:bg-[var(--color-primary-50)]",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)]",
-                        "shadow-sm hover:shadow-md active:scale-[0.98]"
+                        "inline-flex items-center gap-2 text-[var(--color-primary-600)] hover:text-[var(--color-primary-700)]",
+                        "font-semibold text-lg transition-colors duration-200 group"
                     )}
                 >
                     View All Services
-                    <span className="ml-2">
-                        <ArrowRight className="w-5 h-5" />
-                    </span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
             </div>
         </Section>

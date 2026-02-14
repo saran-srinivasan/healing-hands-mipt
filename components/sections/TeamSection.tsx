@@ -154,11 +154,6 @@ function TeamMemberCard({
 export function TeamSection() {
     return (
         <Section className="bg-white" id="team">
-            <SectionHeading
-                title="Meet Our Expert Team"
-                subtitle="Board-certified specialists with decades of experience dedicated to your recovery"
-            />
-
             <div className="space-y-16 md:space-y-24">
                 {teamMembers.map((member, index) => (
                     <TeamMemberCard key={member.name} member={member} index={index} />

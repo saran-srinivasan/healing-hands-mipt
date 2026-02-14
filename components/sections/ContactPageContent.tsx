@@ -14,6 +14,11 @@ import {
     Send,
     CheckCircle,
     AlertCircle,
+    PhoneCallIcon,
+    PhoneCall,
+    PhoneIncoming,
+    Printer,
+    Headset,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,6 +53,18 @@ const contactInfo = [
         href: `tel:${siteConfig.links.phone.replace(/[^0-9]/g, "")}`,
     },
     {
+        icon: Headset,
+        label: "Toll Free",
+        value: siteConfig.links.tollFree,
+        href: `tel:${siteConfig.links.tollFree.replace(/[^0-9]/g, "")}`,
+    },
+    {
+        icon: Printer,
+        label: "Fax",
+        value: siteConfig.links.fax,
+        href: `tel:${siteConfig.links.fax.replace(/[^0-9]/g, "")}`,
+    },
+    {
         icon: Mail,
         label: "Email",
         value: siteConfig.links.email,
@@ -64,8 +81,7 @@ const contactInfo = [
     {
         icon: Clock,
         label: "Hours",
-        value: siteConfig.hours.weekdays,
-        subValues: [siteConfig.hours.saturday, siteConfig.hours.sunday],
+        subValues: [siteConfig.hours.Monday, siteConfig.hours.Tuesday, siteConfig.hours.Wednesday, siteConfig.hours.Thursday, siteConfig.hours.Friday],
     },
 ];
 

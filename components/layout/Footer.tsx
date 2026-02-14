@@ -142,6 +142,15 @@ export function Footer() {
                             </li>
                             <li>
                                 <a
+                                    href={`tel:${siteConfig.links.tollFree.replace(/[^0-9]/g, "")}`}
+                                    className="flex items-center gap-3 hover:text-white transition-colors"
+                                >
+                                    <Phone className="w-5 h-5 shrink-0 text-[var(--color-primary-400)]" />
+                                    {siteConfig.links.tollFree}
+                                </a>
+                            </li>
+                            <li>
+                                <a
                                     href={`mailto:${siteConfig.links.email}`}
                                     className="flex items-center gap-3 hover:text-white transition-colors"
                                 >
@@ -151,9 +160,12 @@ export function Footer() {
                             </li>
                         </ul>
                         <div className="mt-4 text-sm">
-                            <p>{siteConfig.hours.weekdays}</p>
-                            <p>{siteConfig.hours.saturday}</p>
-                            <p>{siteConfig.hours.sunday}</p>
+                            <p>Hours of Operation:</p>
+                            <p>{siteConfig.hours.Monday}</p>
+                            <p>{siteConfig.hours.Tuesday}</p>
+                            <p>{siteConfig.hours.Wednesday}</p>
+                            <p>{siteConfig.hours.Thursday}</p>
+                            <p>{siteConfig.hours.Friday}</p>
                         </div>
                     </div>
                 </div>

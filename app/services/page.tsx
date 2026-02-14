@@ -6,15 +6,15 @@ import { siteConfig } from "@/lib/config";
 export const metadata: Metadata = {
     title: "Our Services",
     description:
-        "Comprehensive physical therapy services including orthopedic rehabilitation, sports therapy, spine care, pelvic health, and specialized treatments like dry needling and vestibular rehab.",
+        "Your Path to Recovery Starts Here No two injuries are the same, and neither is our approach. Whether you are sidelined by a sports injury or struggling with persistent pain, we provide personalized, evidence-based treatments that address the root cause of your symptoms. We don't just treat the injury—we treat the individual",
     openGraph: {
         title: `Our Services | ${siteConfig.name}`,
         description:
-            "Comprehensive physical therapy services including orthopedic rehabilitation, sports therapy, spine care, pelvic health, and specialized treatments.",
+            "Your Path to Recovery Starts Here No two injuries are the same, and neither is our approach. Whether you are sidelined by a sports injury or struggling with persistent pain, we provide personalized, evidence-based treatments that address the root cause of your symptoms. We don't just treat the injury—we treat the individual",
     },
 };
 
-export default function ServicesPage() {
+export default function ServicePage() {
     return (
         <>
             <ServicesPageContent />

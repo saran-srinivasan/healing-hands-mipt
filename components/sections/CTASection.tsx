@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-
 export function CTASection() {
     const buttonBaseStyles = cn(
         "inline-flex items-center justify-center font-semibold rounded-full transition-all duration-200 ease-in-out",
@@ -90,7 +89,7 @@ export function CTASection() {
                     </div>
 
                     <p className="text-sm text-white/70">
-                        Most insurances accepted · Same-week appointments available
+                        We are in the process of getting credentialed with most major medical insurance providers. Please do not hesitate to contact us for more details or with any questions.
                     </p>
                 </motion.div>
             </div>

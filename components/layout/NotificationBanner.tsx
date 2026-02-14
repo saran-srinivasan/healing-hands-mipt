@@ -35,90 +35,66 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
     const current = notifications[index];
 
     return (
-        <section
+        <div
             role="alert"
             aria-live="polite"
-            className="
-      fixed top-25 left-1/2 z-40
-      -translate-x-1/2
-      w-full px-3
-      max-w-[640px] lg:max-w-[50%]
-      flex justify-center
-    "
+            className="relative z-50 w-full bg-amber-50 border-b border-amber-200 text-amber-900"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
         >
-            <div
-                className="
-        flex flex-wrap items-center gap-2 sm:gap-3
-        rounded-2xl sm:rounded-full
-        bg-gradient-to-r from-amber-100 via-orange-100 to-amber-100
-        border border-amber-200
-        px-4 py-2 sm:px-5
-        text-xs sm:text-sm text-amber-900
-        shadow-[0_6px_24px_-10px_rgba(251,191,36,0.5)]
-        backdrop-blur
-        w-full
-      "
-            >
-                {/* Icon */}
-                <Info className="w-4 h-4 text-amber-700 flex-shrink-0" />
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
-                {/* Message */}
-                <div className="flex-1 min-w-0">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={current.id}
-                            initial={{ opacity: 0, y: -4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -4 }}
-                            transition={{ duration: 0.2 }}
-                            className="
-              leading-snug
-              break-words
-              sm:whitespace-nowrap
-            "
-                        >
-                            <span className="font-medium">
-                                {current.message}
-                            </span>
+                {/* Left Side: Icon + Message */}
+                <div className="flex flex-1 items-center gap-3 overflow-hidden">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-200/50">
+                        <Info className="h-4 w-4 text-amber-700" />
+                    </span>
 
-                            {current.link && (
-                                <Link
-                                    href={current.link}
-                                    className="ml-1 underline underline-offset-4 font-semibold hover:text-amber-700"
-                                >
-                                    Details →
-                                </Link>
-                            )}
-                        </motion.div>
-                    </AnimatePresence>
+                    <div className="flex-1 min-w-0">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={current.id}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className="flex flex-wrap items-center gap-2 text-sm font-medium"
+                            >
+                                <span className="truncate">{current.message}</span>
+                                {current.link && (
+                                    <Link
+                                        href={current.link}
+                                        className="shrink-0 whitespace-nowrap font-semibold underline decoration-amber-400 underline-offset-2 hover:text-amber-700"
+                                    >
+                                        Learn more &rarr;
+                                    </Link>
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
                 </div>
 
-                {/* Controls */}
-                <div className="flex items-center gap-1 ml-auto">
+                {/* Right Side: Controls */}
+                <div className="flex shrink-0 items-center gap-2 pl-4">
                     {notifications.length > 1 && (
-                        <>
+                        <div className="hidden sm:flex items-center gap-1 border-r border-amber-200 pr-2 mr-2">
                             <button
                                 onClick={() =>
-                                    setIndex((i) =>
-                                        i === 0 ? notifications.length - 1 : i - 1
-                                    )
+                                    setIndex((i) => (i === 0 ? notifications.length - 1 : i - 1))
                                 }
                                 aria-label="Previous notification"
-                                className="p-1 rounded-full hover:bg-amber-200/60"
+                                className="rounded-full p-1 transition hover:bg-amber-200/50 text-amber-800"
                             >
-                                <ChevronLeft className="w-3.5 h-3.5" />
+                                <ChevronLeft className="h-4 w-4" />
                             </button>
-
                             <button
-                                onClick={() =>
-                                    setIndex((i) => (i + 1) % notifications.length)
-                                }
+                                onClick={() => setIndex((i) => (i + 1) % notifications.length)}
                                 aria-label="Next notification"
-                                className="p-1 rounded-full hover:bg-amber-200/60"
+                                className="rounded-full p-1 transition hover:bg-amber-200/50 text-amber-800"
                             >
-                                <ChevronRight className="w-3.5 h-3.5" />
+                                <ChevronRight className="h-4 w-4" />
                             </button>
-                        </>
+                        </div>
                     )}
 
                     <button
@@ -127,13 +103,12 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
                             sessionStorage.setItem("clinic-banner-dismissed", "true");
                         }}
                         aria-label="Dismiss notification"
-                        className="p-1 rounded-full hover:bg-amber-200/60"
+                        className="rounded-full p-1.5 transition hover:bg-amber-200/50 text-amber-800"
                     >
-                        <X className="w-3.5 h-3.5" />
+                        <X className="h-4 w-4" />
                     </button>
                 </div>
             </div>
-        </section>
+        </div>
     );
-
 }
