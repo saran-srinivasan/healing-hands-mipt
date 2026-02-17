@@ -10,7 +10,7 @@ export const siteConfig = {
     links: {
         phone: "248 560 7994",
         tollFree: "877 999 5885",
-        email: "info@healinghandsmipt.com",
+        email: "contactus@healinghandsmipt.com",
         address: {
             street: "20319 Farmington Road, Suite A",
             city: "Livonia",

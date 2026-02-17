@@ -99,12 +99,10 @@ export function Navbar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = React.useState(false);
 
-    // Close the mobile menu on navigation
     React.useEffect(() => {
         setIsOpen(false);
     }, [pathname]);
 
-    // Lock body scroll when mobile menu is open
     React.useEffect(() => {
         document.body.style.overflow = isOpen ? "hidden" : "";
         return () => {
@@ -112,7 +110,6 @@ export function Navbar() {
         };
     }, [isOpen]);
 
-    // Close on Escape (mobile menu)
     React.useEffect(() => {
         if (!isOpen) return;
         const onKeyDown = (e: KeyboardEvent) => {
@@ -138,27 +135,42 @@ export function Navbar() {
 
     return (
         <header className="sticky top-0 z-150 w-full border-b border-[var(--color-neutral-100)] bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+
             {/* Top bar */}
-            <div className="mx-auto grid h-16 grid-cols-[auto_1fr_auto] items-center gap-x-4 px-4 sm:h-20 sm:px-6 lg:px-8">
-                {/* Left: Logo */}
+            <div className="mx-auto grid h-[72px] grid-cols-[auto_1fr_auto] items-center gap-x-4 px-4 sm:h-[84px] sm:px-6 lg:px-8">
+
+                {/* BRAND BLOCK — ENHANCED */}
                 <Link
                     href="/"
-                    className="flex items-center gap-3 justify-self-start"
+                    className="flex items-center gap-3 sm:gap-4 justify-self-start group"
                     aria-label={`${siteConfig.shortName} home`}
                 >
                     <Image
                         src={HHPT_logo}
                         alt="Healing Hands Physical Therapy Associates Logo"
-                        width={48}
-                        height={48}
+                        width={64}
+                        height={64}
                         priority
+                        className="w-12 sm:w-14 lg:w-16 h-auto transition-transform duration-300 group-hover:scale-[1.04]"
                     />
-                    <span className="text-base font-semibold leading-tight text-[var(--color-primary-700)] sm:text-lg">
+
+                    <span className="
+                        font-bold
+                        leading-tight
+                        text-[var(--color-primary-700)]
+                        text-lg
+                        sm:text-xl
+                        lg:text-2xl
+                        tracking-tight
+                        transition-colors
+                        group-hover:text-[var(--color-primary-800)]
+                    ">
                         {siteConfig.shortName}
                     </span>
                 </Link>
 
-                {/* Center: Desktop nav */}
+
+                {/* Desktop nav */}
                 <nav className="hidden md:flex justify-self-center" aria-label="Primary navigation">
                     <div className="flex items-center gap-6 lg:gap-8">
                         {siteConfig.navigation.map((item) => {
@@ -184,10 +196,11 @@ export function Navbar() {
                     </div>
                 </nav>
 
-                {/* Right: Actions (desktop) + menu button (mobile) */}
+
+                {/* Right side */}
                 <div className="justify-self-end">
                     <div className="hidden md:flex items-center gap-3 lg:gap-4">
-                        {/* One clean call control (dropdown) */}
+
                         <div className="hidden lg:block">
                             <PhoneDropdown items={phoneItems} />
                         </div>
@@ -200,7 +213,7 @@ export function Navbar() {
                         </Link>
                     </div>
 
-                    {/* Mobile menu button */}
+                    {/* Mobile toggle */}
                     <button
                         type="button"
                         className="inline-flex items-center justify-center rounded-md p-2 text-[var(--color-neutral-700)] transition hover:bg-[var(--color-neutral-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2 md:hidden"
@@ -214,33 +227,27 @@ export function Navbar() {
                 </div>
             </div>
 
-            {/* Mobile overlay + panel */}
+            {/* MOBILE PANEL (unchanged logic) */}
             <AnimatePresence>
                 {isOpen && (
                     <>
                         <motion.div
-                            key="overlay"
                             className="fixed inset-0 z-40 bg-black/20 md:hidden"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsOpen(false)}
-                            aria-hidden="true"
                         />
 
                         <motion.div
-                            key="panel"
                             id="mobile-menu"
-                            role="dialog"
-                            aria-modal="true"
-                            className="fixed inset-x-0 top-16 z-50 border-b border-[var(--color-neutral-100)] bg-white md:hidden"
+                            className="fixed inset-x-0 top-[72px] sm:top-[84px] z-50 border-b border-[var(--color-neutral-100)] bg-white md:hidden"
                             initial={{ opacity: 0, y: -8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -8 }}
                             transition={{ duration: 0.18, ease: "easeOut" }}
                         >
                             <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 sm:px-6">
-                                {/* Bigger mobile nav items */}
                                 {siteConfig.navigation.map((item) => {
                                     const active = isActive(item.href);
                                     return (
@@ -261,38 +268,25 @@ export function Navbar() {
 
                                 <div className="mt-2 h-px w-full bg-[var(--color-neutral-200)]" />
 
-                                {/* Phone section (labeled, looks intentional) */}
-                                <div className="px-1">
-                                    <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-neutral-500)]">
-                                        Call Us
-                                    </div>
+                                <a
+                                    href={`tel:${phone}`}
+                                    className="flex justify-between rounded-lg px-4 py-3 text-base font-medium text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)]"
+                                >
+                                    Main
+                                    <span className="text-[var(--color-neutral-500)]">{siteConfig.links.phone}</span>
+                                </a>
 
-                                    <a
-                                        href={`tel:${phone}`}
-                                        className="flex items-center justify-between gap-3 rounded-lg px-4 py-3 text-base font-medium text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)]"
-                                    >
-                                        <span className="inline-flex items-center gap-2">
-                                            <Phone className="h-5 w-5 text-[var(--color-neutral-500)]" />
-                                            Main
-                                        </span>
-                                        <span className="text-[var(--color-neutral-500)]">{siteConfig.links.phone}</span>
-                                    </a>
-
-                                    <a
-                                        href={`tel:${tollFree}`}
-                                        className="flex items-center justify-between gap-3 rounded-lg px-4 py-3 text-base font-medium text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)]"
-                                    >
-                                        <span className="inline-flex items-center gap-2">
-                                            <Phone className="h-5 w-5 text-[var(--color-neutral-500)]" />
-                                            Toll-free
-                                        </span>
-                                        <span className="text-[var(--color-neutral-500)]">{siteConfig.links.tollFree}</span>
-                                    </a>
-                                </div>
+                                <a
+                                    href={`tel:${tollFree}`}
+                                    className="flex justify-between rounded-lg px-4 py-3 text-base font-medium text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)]"
+                                >
+                                    Toll-free
+                                    <span className="text-[var(--color-neutral-500)]">{siteConfig.links.tollFree}</span>
+                                </a>
 
                                 <Link
                                     href="/contact"
-                                    className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-[var(--color-primary-600)] px-6 py-3 text-lg font-semibold text-white shadow-sm transition hover:bg-[var(--color-primary-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2 active:scale-[0.98]"
+                                    className="mt-2 inline-flex w-full justify-center rounded-full bg-[var(--color-primary-600)] px-6 py-3 text-lg font-semibold text-white shadow-sm transition hover:bg-[var(--color-primary-700)]"
                                 >
                                     Book Appointment
                                 </Link>
@@ -304,3 +298,4 @@ export function Navbar() {
         </header>
     );
 }
+

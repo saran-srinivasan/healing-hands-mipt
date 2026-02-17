@@ -45,7 +45,7 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
                 {/* Left Side: Icon + Message */}
-                <div className="flex flex-1 items-center gap-3 overflow-hidden">
+                <div className="flex flex-1 items-start sm:items-center gap-3">
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-200/50">
                         <Info className="h-4 w-4 text-amber-700" />
                     </span>
@@ -58,9 +58,12 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2 }}
-                                className="flex flex-wrap items-center gap-2 text-sm font-medium"
+                                className="flex flex-wrap items-start sm:items-center gap-2 text-sm font-medium w-full"
                             >
-                                <span className="truncate">{current.message}</span>
+                                <span className="break-words leading-snug sm:whitespace-nowrap">
+                                    {current.message}
+                                </span>
+
                                 {current.link && (
                                     <Link
                                         href={current.link}
