@@ -100,24 +100,26 @@ export function ContactPageContent() {
     });
 
     const onSubmit = async (data: ContactFormData) => {
-        // Check honeypot
-        if (data.honeypot) {
-            return;
-        }
+        if (data.honeypot) return;
 
         setSubmitStatus("loading");
 
-        // Simulate form submission
-        // In production, replace with actual API call
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-            console.log("Form submitted:", data);
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (!res.ok) throw new Error();
+
             setSubmitStatus("success");
             reset();
         } catch {
             setSubmitStatus("error");
         }
     };
+
 
     const inputClasses = cn(
         "w-full px-4 py-3 rounded-xl border transition-all duration-200",
