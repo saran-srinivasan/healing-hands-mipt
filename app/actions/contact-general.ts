@@ -1,8 +1,9 @@
-import { siteConfig } from "@/lib/config";
+"use server";
+
 import nodemailer from "nodemailer";
 import { z } from "zod";
-
-export const runtime = "nodejs"; // nodemailer requires Node.js runtime
+import { headers } from "next/headers";
+import { siteConfig } from "@/lib/config";
 
 const schema = z.object({
     name: z.string().min(2).max(100),
@@ -18,6 +19,10 @@ const schema = z.object({
     honeypot: z.string().max(0),
 });
 
+export type ContactGeneralActionResult =
+    | { success: true }
+    | { success: false; error: string };
+
 const rateLimit = new Map<string, number>();
 
 function escapeHtml(input: string) {
@@ -29,56 +34,67 @@ function escapeHtml(input: string) {
         .replace(/'/g, "&#39;");
 }
 
-function getClientIp(req: Request) {
-    const xff = req.headers.get("x-forwarded-for");
-    if (xff) return xff.split(",")[0]?.trim() || "unknown";
-    return req.headers.get("x-real-ip") || "unknown";
+async function getClientKey() {
+    const h = await headers();
+
+    const xff = h.get("x-forwarded-for");
+    const ip = xff ? xff.split(",")[0]?.trim() : h.get("x-real-ip") || "unknown";
+    const ua = h.get("user-agent") || "unknown";
+
+    return `${ip}:${ua}`;
 }
 
-export async function POST(req: Request) {
+export async function sendGeneralInquiry(
+    _prevState: ContactGeneralActionResult | null,
+    formData: FormData
+): Promise<ContactGeneralActionResult> {
     try {
-        const ip = getClientIp(req);
-        const ua = req.headers.get("user-agent") || "unknown";
-        const key = `${ip}:${ua}`;
-
-        // Basic rate limit: 1 request per 15 seconds per IP+UA
+        // Rate limit: 1 request / 15s per client key
+        const key = await getClientKey();
         const now = Date.now();
         const last = rateLimit.get(key) || 0;
+
         if (now - last < 15_000) {
-            return Response.json({ error: "Too many requests" }, { status: 429 });
+            return { success: false, error: "Too many requests. Please wait a moment." };
         }
         rateLimit.set(key, now);
 
-        // Lightweight cleanup so the Map doesn't grow forever
+        // Optional cleanup to avoid unbounded growth
         if (rateLimit.size > 5000) {
-            const cutoff = now - 60 * 60 * 1000; // 1 hour
+            const cutoff = now - 60 * 60 * 1000;
             for (const [k, ts] of rateLimit) {
                 if (ts < cutoff) rateLimit.delete(k);
             }
         }
 
-        const body = await req.json().catch(() => null);
-        if (!body || typeof body !== "object") {
-            return Response.json({ error: "Invalid payload" }, { status: 400 });
-        }
+        // Read + normalize from FormData
+        const raw = {
+            name: String(formData.get("name") ?? ""),
+            email: String(formData.get("email") ?? ""),
+            phone: String(formData.get("phone") ?? ""),
+            subject: String(formData.get("subject") ?? ""),
+            message: String(formData.get("message") ?? ""),
+            honeypot: String(formData.get("honeypot") ?? ""),
+            noMedicalInfoAck:
+                formData.get("noMedicalInfoAck") === "on" ||
+                formData.get("noMedicalInfoAck") === "true",
+        };
 
-        // Validate (do not log the payload)
-        const parsed = schema.safeParse(body);
+        // Honeypot: pretend success
+        if (raw.honeypot) return { success: true };
+
+        const parsed = schema.safeParse({
+            ...raw,
+            noMedicalInfoAck: raw.noMedicalInfoAck === true ? true : (false as any),
+        });
+
         if (!parsed.success) {
-            return Response.json(
-                { error: "Invalid form data" },
-                { status: 400 }
-            );
+            return { success: false, error: "Invalid form data." };
         }
 
         const data = parsed.data;
 
-        // Honeypot: pretend success
-        if (data.honeypot) {
-            return Response.json({ ok: true });
-        }
-
-        // Build safe HTML
+        // Escape HTML (prevents injection in your email template)
         const safeName = escapeHtml(data.name);
         const safeEmail = escapeHtml(data.email);
         const safePhone = escapeHtml(data.phone);
@@ -96,17 +112,17 @@ export async function POST(req: Request) {
         });
 
         const to = process.env.CONTACT_RECEIVER;
-        if (!to) {
-            return Response.json({ error: "Server not configured" }, { status: 500 });
+        if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !to) {
+            return { success: false, error: "Server not configured." };
         }
 
         await transporter.sendMail({
             from: `Website General Inquiry <${process.env.SMTP_USER}>`,
             to,
             replyTo: data.email,
-            subject: `Website Inquiry — ${safeSubject}`,
+            subject: `Website Inquiry — ${data.subject}`,
             text: [
-                "New website general inquiry (no medical info requested).",
+                "New website general inquiry (users are instructed not to submit medical info).",
                 "",
                 `Name: ${data.name}`,
                 `Email: ${data.email}`,
@@ -116,7 +132,7 @@ export async function POST(req: Request) {
                 "Message:",
                 data.message,
                 "",
-                `Sent from: ${siteConfig.name} contact page`,
+                `Sent from: ${siteConfig.name}`,
             ].join("\n"),
             html: `
 <div style="background:#f4f7fb;padding:40px 0;font-family:Arial,sans-serif">
@@ -130,7 +146,7 @@ export async function POST(req: Request) {
     <tr>
       <td style="padding:26px 30px">
         <p style="margin:0 0 14px 0;font-size:14px;color:#374151">
-          This message came from the website <b>general inquiries</b> form (users are instructed not to include medical details).
+          Submitted via the <b>general inquiries</b> form (no medical details requested).
         </p>
 
         <table width="100%" style="border-collapse:collapse">
@@ -165,10 +181,6 @@ export async function POST(req: Request) {
             Reply to ${safeName}
           </a>
         </div>
-
-        <p style="margin:18px 0 0 0;font-size:12px;color:#9ca3af">
-          Reminder: Please keep replies for general questions only and do not request medical details over email.
-        </p>
       </td>
     </tr>
 
@@ -183,9 +195,9 @@ export async function POST(req: Request) {
       `,
         });
 
-        return Response.json({ success: true });
+        return { success: true };
     } catch {
-        // Avoid logging request bodies or user-provided content
-        return Response.json({ error: "Server error" }, { status: 500 });
+        // No logging of user-provided content
+        return { success: false, error: "Server error." };
     }
 }
