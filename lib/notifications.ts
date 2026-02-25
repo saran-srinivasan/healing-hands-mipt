@@ -1,8 +1,6 @@
 import Papa from "papaparse";
 
 // TODO: Replace with the actual published Google Sheet CSV URL
-const GOOGLE_SHEET_CSV_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQzU_XHknVIOKzLAgrmU2VgK3n4W0mrr4r0NDf1NqDPqjjM0LLIXcvHmnhCan50W6QrFIiuqC-fJN-/pub?gid=0&single=true&output=csv";
 
 export interface Notification {
     id: string;
@@ -21,13 +19,17 @@ interface SheetRow {
 }
 
 export async function getNotifications(): Promise<Notification[]> {
+    if (!process.env.GOOGLE_SHEET_CSV_URL) {
+        console.warn("GOOGLE_SHEET_CSV_URL is not defined");
+        return [];
+    }
     try {
         // console.log("Fetching notifications...", GOOGLE_SHEET_CSV_URL);
 
         // In a real scenario, you probably want to cache this request for a short time (e.g. 60s)
         // using Next.js 'next: { revalidate: 60 }' if using fetch directly.
         // Since we are parsing CSV, we fetch text first.
-        const response = await fetch(GOOGLE_SHEET_CSV_URL, {
+        const response = await fetch(process.env.GOOGLE_SHEET_CSV_URL, {
             next: { revalidate: 60 }, // Cache for 1 minute
             cache: "force-cache",
         });
@@ -41,8 +43,6 @@ export async function getNotifications(): Promise<Notification[]> {
         }
 
         const csvText = await response.text();
-
-        console.log("Notifications CSV text:", csvText);
 
 
         const { data } = Papa.parse<SheetRow>(csvText, {
@@ -91,8 +91,6 @@ export async function getNotifications(): Promise<Notification[]> {
                 return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
             })
             .slice(0, 3); // Top 3
-
-        console.log("Valid notifications:", validNotifications);
 
         return validNotifications;
     } catch (error) {
