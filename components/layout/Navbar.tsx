@@ -54,7 +54,7 @@ function PhoneDropdown({ items }: { items: PhoneItem[] }) {
                 )}
             >
                 <Phone className="h-4 w-4" />
-                <span className="hidden lg:inline">Call Us</span>
+                <a href={`tel:${items[0].tel}`} className="hidden lg:inline">{items[0].display}</a>
                 <ChevronDown className={cn("h-4 w-4 transition-transform", open && "rotate-180")} />
             </button>
 
@@ -137,7 +137,7 @@ export function Navbar() {
         <header className="sticky top-0 z-150 w-full border-b border-[var(--color-neutral-100)] bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
 
             {/* Top bar */}
-            <div className="mx-auto grid h-[72px] grid-cols-[auto_1fr_auto] items-center gap-x-4 px-4 sm:h-[84px] sm:px-6 lg:px-8">
+            <div className="mx-auto grid h-[84px] grid-cols-[auto_1fr_auto] items-center gap-x-4 px-4 sm:h-[100px] sm:px-6 lg:px-8">
 
                 {/* BRAND BLOCK — ENHANCED */}
                 <Link
@@ -148,21 +148,22 @@ export function Navbar() {
                     <Image
                         src={HHPT_logo}
                         alt="Healing Hands Physical Therapy Associates Logo"
-                        width={64}
-                        height={64}
+                        width={84}
+                        height={84}
                         priority
-                        className="w-12 sm:w-14 lg:w-16 h-auto transition-transform duration-300 group-hover:scale-[1.04]"
+                        className="w-16 sm:w-20 lg:w-24 h-auto transition-transform duration-300 group-hover:scale-[1.04]"
                     />
 
                     <span className="
                         font-bold
                         leading-tight
                         text-[var(--color-primary-700)]
-                        text-lg
-                        sm:text-xl
-                        lg:text-2xl
+                        text-xl
+                        sm:text-2xl
+                        lg:text-3xl
                         tracking-tight
                         transition-colors
+                        whitespace-nowrap
                         group-hover:text-[var(--color-primary-800)]
                     ">
                         {siteConfig.shortName}
@@ -241,7 +242,7 @@ export function Navbar() {
 
                         <motion.div
                             id="mobile-menu"
-                            className="fixed inset-x-0 top-[72px] sm:top-[84px] z-50 border-b border-[var(--color-neutral-100)] bg-white md:hidden"
+                            className="fixed inset-x-0 top-[84px] sm:top-[100px] z-50 border-b border-[var(--color-neutral-100)] bg-white md:hidden"
                             initial={{ opacity: 0, y: -8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -8 }}
