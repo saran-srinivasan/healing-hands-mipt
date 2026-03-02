@@ -92,7 +92,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const notifications = await getNotifications();
-  console.log("Notifications:", notifications);
 
   return (
     <html lang="en" className="scroll-smooth">
@@ -125,7 +124,13 @@ export default async function RootLayout({
               openingHoursSpecification: [
                 {
                   "@type": "OpeningHoursSpecification",
-                  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                  dayOfWeek: [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                  ],
                   opens: "08:00",
                   closes: "18:00",
                 },
