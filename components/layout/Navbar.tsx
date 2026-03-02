@@ -48,7 +48,7 @@ function PhoneDropdown({ items }: { items: PhoneItem[] }) {
         aria-haspopup="menu"
         aria-expanded={open}
         className={cn(
-          "inline-flex items-center gap-2 rounded-full border border-[var(--color-neutral-200)] bg-white px-3 py-2",
+          "inline-flex items-center gap-1.5 rounded-full border border-[var(--color-neutral-200)] bg-white px-3 py-2",
           "text-sm font-semibold text-[var(--color-neutral-700)] shadow-sm transition",
           "hover:bg-[var(--color-neutral-50)] hover:text-[var(--color-primary-700)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2",
@@ -72,7 +72,7 @@ function PhoneDropdown({ items }: { items: PhoneItem[] }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.14, ease: "easeOut" }}
-            className="absolute right-0 mt-2 w-64 overflow-hidden rounded-xl border border-[var(--color-neutral-200)] bg-white shadow-lg"
+            className="absolute right-0 mt-2 w-56 sm:w-64 overflow-hidden rounded-xl border border-[var(--color-neutral-200)] bg-white shadow-lg"
           >
             <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-neutral-500)]">
               Call us
@@ -141,55 +141,61 @@ export function Navbar() {
   };
 
   return (
-    <header className="relative z-150 w-full bg-[var(--color-primary-50)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-primary-50)]/90">
-      <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-[80px] items-center justify-between gap-4 py-3 sm:min-h-[96px] sm:py-4 lg:min-h-[140px]">
-          <Link
-            href="/"
-            className="flex items-center gap-3 shrink-0 lg:gap-4"
-            aria-label={`${siteConfig.name} home`}
-          >
-            <Image
-              src={HHPT_logo}
-              alt="Healing Hands Physical Therapy Associates logo"
-              width={168}
-              height={140}
-              priority
-              className="h-auto w-[72px] shrink-0 sm:w-[96px] lg:w-[136px]"
-            />
-            <div className="leading-[1.1]">
-              <p className="text-base font-semibold uppercase tracking-[0.09em] text-[var(--color-primary-800)] sm:text-lg lg:text-2xl xl:text-[32px] whitespace-nowrap">
-                Healing Hands
-              </p>
-              <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.09em] text-[var(--color-secondary-700)] sm:text-xs lg:text-[16px] whitespace-nowrap">
-                Physical Therapy Associates LLC
-              </p>
-            </div>
-          </Link>
+    <header className="relative z-150 w-full bg-[var(--color-primary-50)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-primary-50)]/90 border-b border-[var(--color-primary-100)]/50">
+      <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8">
+        {/* 
+          NEW GRID LAYOUT 
+          Mobile: 2 columns (Logo span full row, Buttons under it right aligned)
+          Large: 3 equal-width columns (Logo Left, Nav Center, Buttons Right)
+        */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 items-center gap-y-3 py-3 lg:min-h-[120px]">
+          {/* 1. LOGO SECTION (Left side on Desktop, Full width on Mobile) */}
+          <div className="col-span-2 flex justify-center lg:justify-start lg:col-span-1">
+            <Link
+              href="/"
+              className="flex items-center gap-3 shrink-0"
+              aria-label={`${siteConfig.name} home`}
+            >
+              <Image
+                src={HHPT_logo}
+                alt="Healing Hands Physical Therapy Associates logo"
+                width={168}
+                height={140}
+                priority
+                className="h-auto w-[72px] shrink-0 sm:w-[96px] lg:w-[136px] xl:w-[148px]"
+              />
+              <div className="leading-[1.1]">
+                <p className="text-[17px] sm:text-[22px] lg:text-[28px] xl:text-[30px] font-bold uppercase tracking-[0.08em] text-[var(--color-primary-800)] whitespace-nowrap">
+                  Healing Hands
+                </p>
+                <p className="mt-1 text-[11px] sm:text-[13px] lg:text-[16px] xl:text-[14px] font-semibold uppercase tracking-[0.1em] text-[var(--color-secondary-700)] whitespace-nowrap">
+                  Physical Therapy Associates LLC
+                </p>
+              </div>
+            </Link>
+          </div>
 
-          {/* Desktop Nav - Center */}
+          {/* 2. NAVIGATION SECTION (Center on Desktop, Hidden on Mobile) */}
           <nav
-            className="hidden flex-1 justify-center lg:flex"
+            className="hidden lg:flex justify-center"
             aria-label="Primary navigation"
           >
-            <ul className="flex items-center gap-6 xl:gap-10">
+            <ul className="flex items-center gap-6 xl:gap-8">
               {siteConfig.navigation.map((item) => {
                 const active = isActive(item.href);
-                const showChevron =
-                  item.name === "About" || item.name === "Services";
-
                 return (
                   <li key={item.name}>
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "inline-flex items-center gap-1.5 text-lg font-medium text-[var(--color-neutral-700)] transition-colors xl:text-xl",
+                        "inline-flex items-center text-[17px] xl:text-[19px] font-medium text-[var(--color-neutral-700)] transition-colors",
                         "hover:text-[var(--color-primary-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2",
-                        active && "text-[var(--color-secondary-600)]",
+                        active &&
+                          "text-[var(--color-secondary-600)] font-semibold",
                       )}
                     >
-                      <span>{item.name}</span>
+                      {item.name}
                     </Link>
                   </li>
                 );
@@ -197,13 +203,13 @@ export function Navbar() {
             </ul>
           </nav>
 
-          {/* Actions - Right */}
-          <div className="flex items-center gap-3 shrink-0 lg:gap-4">
+          {/* 3. ACTION SECTION (Right side on Desktop, Right side bottom row on Mobile) */}
+          <div className="col-span-2 flex items-center justify-center sm:justify-end gap-3 lg:col-span-1 lg:justify-end">
             <PhoneDropdown items={phoneItems} />
 
             <Link
               href="/contact"
-              className="hidden items-center justify-center gap-1 rounded-md bg-[var(--color-primary-600)] px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-[var(--color-primary-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2 lg:inline-flex xl:px-6 xl:py-3.5 xl:text-lg"
+              className="hidden lg:inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--color-primary-600)] px-5 py-3 text-base xl:text-[17px] font-semibold text-white shadow-sm transition hover:bg-[var(--color-primary-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2"
             >
               <CalendarDays className="h-5 w-5" />
               <span>Request an Appointment</span>
@@ -211,16 +217,16 @@ export function Navbar() {
 
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-[var(--color-neutral-700)] transition hover:bg-[var(--color-neutral-100)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2 lg:hidden"
+              className="inline-flex lg:hidden items-center justify-center rounded-lg border border-[var(--color-neutral-200)] bg-white p-2 text-[var(--color-neutral-700)] shadow-sm transition hover:bg-[var(--color-neutral-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2"
               onClick={() => setIsOpen((v) => !v)}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label={isOpen ? "Close menu" : "Open menu"}
             >
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5" />
               )}
             </button>
           </div>
@@ -241,7 +247,8 @@ export function Navbar() {
 
             <motion.div
               id="mobile-menu"
-              className="fixed inset-x-0 top-[80px] z-50 border-y border-[var(--color-neutral-200)] bg-[var(--color-primary-50)] shadow-xl sm:top-[96px] lg:hidden"
+              // Adjusted top placement to account for stacked header
+              className="fixed inset-x-0 top-[130px] sm:top-[140px] z-50 border-y border-[var(--color-neutral-200)] bg-[var(--color-primary-50)] shadow-2xl lg:hidden"
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
@@ -256,9 +263,10 @@ export function Navbar() {
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "rounded-lg px-4 py-3 text-lg font-medium text-[var(--color-neutral-700)] transition",
+                        "rounded-xl px-4 py-3.5 text-lg font-semibold text-[var(--color-neutral-700)] transition",
                         "hover:bg-[var(--color-neutral-100)] hover:text-[var(--color-primary-700)]",
-                        active && "bg-white text-[var(--color-secondary-600)]",
+                        active &&
+                          "bg-white text-[var(--color-secondary-600)] shadow-sm",
                       )}
                     >
                       {item.name}
@@ -266,11 +274,11 @@ export function Navbar() {
                   );
                 })}
 
-                <div className="mt-2 h-px w-full bg-[var(--color-neutral-200)]" />
+                <div className="my-2 h-px w-full bg-[var(--color-primary-200)]" />
 
                 <a
                   href={`tel:${phone}`}
-                  className="flex justify-between rounded-lg px-4 py-3 text-base font-medium text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)]"
+                  className="flex justify-between rounded-xl px-4 py-3 text-base font-semibold text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)] transition"
                 >
                   Main
                   <span className="text-[var(--color-neutral-500)]">
@@ -280,7 +288,7 @@ export function Navbar() {
 
                 <a
                   href={`tel:${tollFree}`}
-                  className="flex justify-between rounded-lg px-4 py-3 text-base font-medium text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)]"
+                  className="flex justify-between rounded-xl px-4 py-3 text-base font-semibold text-[var(--color-neutral-700)] hover:bg-[var(--color-neutral-50)] transition"
                 >
                   Toll-free
                   <span className="text-[var(--color-neutral-500)]">
@@ -290,7 +298,7 @@ export function Navbar() {
 
                 <Link
                   href="/contact"
-                  className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary-600)] px-6 py-3 text-lg font-semibold text-white shadow-sm transition hover:bg-[var(--color-primary-700)]"
+                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary-600)] px-6 py-4 text-[17px] font-bold text-white shadow-sm transition hover:bg-[var(--color-primary-700)]"
                 >
                   <CalendarDays className="h-5 w-5" />
                   Request an Appointment
