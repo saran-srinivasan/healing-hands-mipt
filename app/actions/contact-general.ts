@@ -6,135 +6,135 @@ import { headers } from "next/headers";
 import { siteConfig } from "@/lib/config";
 
 const schema = z.object({
-    name: z.string().min(2).max(100),
-    email: z.string().email(),
-    phone: z
-        .string()
-        .min(10)
-        .max(20)
-        .regex(/^[0-9()\-\s+]+$/, "Invalid phone number"),
-    subject: z.string().min(2).max(120),
-    message: z.string().min(5).max(1000),
-    noMedicalInfoAck: z.literal(true),
-    honeypot: z.string().max(0),
+  name: z.string().min(2).max(100),
+  email: z.string().email(),
+  phone: z
+    .string()
+    .min(10)
+    .max(20)
+    .regex(/^[0-9()\-\s+]+$/, "Invalid phone number"),
+  subject: z.string().min(2).max(120),
+  message: z.string().min(5).max(1000),
+  noMedicalInfoAck: z.literal(true),
+  honeypot: z.string().max(0),
 });
 
 export type ContactGeneralActionResult =
-    | { success: true }
-    | { success: false; error: string };
+  | { success: true }
+  | { success: false; error: string };
 
 const rateLimit = new Map<string, number>();
 
 function escapeHtml(input: string) {
-    return input
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 async function getClientKey() {
-    const h = await headers();
+  const h = await headers();
 
-    const xff = h.get("x-forwarded-for");
-    const ip = xff ? xff.split(",")[0]?.trim() : h.get("x-real-ip") || "unknown";
-    const ua = h.get("user-agent") || "unknown";
+  const xff = h.get("x-forwarded-for");
+  const ip = xff ? xff.split(",")[0]?.trim() : h.get("x-real-ip") || "unknown";
+  const ua = h.get("user-agent") || "unknown";
 
-    return `${ip}:${ua}`;
+  return `${ip}:${ua}`;
 }
 
 export async function sendGeneralInquiry(
-    _prevState: ContactGeneralActionResult | null,
-    formData: FormData
+  _prevState: ContactGeneralActionResult | null,
+  formData: FormData
 ): Promise<ContactGeneralActionResult> {
-    try {
-        // Rate limit: 1 request / 15s per client key
-        const key = await getClientKey();
-        const now = Date.now();
-        const last = rateLimit.get(key) || 0;
+  try {
+    // Rate limit: 1 request / 15s per client key
+    const key = await getClientKey();
+    const now = Date.now();
+    const last = rateLimit.get(key) || 0;
 
-        if (now - last < 15_000) {
-            return { success: false, error: "Too many requests. Please wait a moment." };
-        }
-        rateLimit.set(key, now);
+    if (now - last < 15_000) {
+      return { success: false, error: "Too many requests. Please wait a moment." };
+    }
+    rateLimit.set(key, now);
 
-        // Optional cleanup to avoid unbounded growth
-        if (rateLimit.size > 5000) {
-            const cutoff = now - 60 * 60 * 1000;
-            for (const [k, ts] of rateLimit) {
-                if (ts < cutoff) rateLimit.delete(k);
-            }
-        }
+    // Optional cleanup to avoid unbounded growth
+    if (rateLimit.size > 5000) {
+      const cutoff = now - 60 * 60 * 1000;
+      for (const [k, ts] of rateLimit) {
+        if (ts < cutoff) rateLimit.delete(k);
+      }
+    }
 
-        // Read + normalize from FormData
-        const raw = {
-            name: String(formData.get("name") ?? ""),
-            email: String(formData.get("email") ?? ""),
-            phone: String(formData.get("phone") ?? ""),
-            subject: String(formData.get("subject") ?? ""),
-            message: String(formData.get("message") ?? ""),
-            honeypot: String(formData.get("honeypot") ?? ""),
-            noMedicalInfoAck:
-                formData.get("noMedicalInfoAck") === "on" ||
-                formData.get("noMedicalInfoAck") === "true",
-        };
+    // Read + normalize from FormData
+    const raw = {
+      name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      subject: String(formData.get("subject") ?? ""),
+      message: String(formData.get("message") ?? ""),
+      honeypot: String(formData.get("honeypot") ?? ""),
+      noMedicalInfoAck:
+        formData.get("noMedicalInfoAck") === "on" ||
+        formData.get("noMedicalInfoAck") === "true",
+    };
 
-        // Honeypot: pretend success
-        if (raw.honeypot) return { success: true };
+    // Honeypot: pretend success
+    if (raw.honeypot) return { success: true };
 
-        const parsed = schema.safeParse({
-            ...raw,
-            noMedicalInfoAck: raw.noMedicalInfoAck === true ? true : (false as any),
-        });
+    const parsed = schema.safeParse({
+      ...raw,
+      noMedicalInfoAck: raw.noMedicalInfoAck === true ? true : (false as any),
+    });
 
-        if (!parsed.success) {
-            return { success: false, error: "Invalid form data." };
-        }
+    if (!parsed.success) {
+      return { success: false, error: "Invalid form data." };
+    }
 
-        const data = parsed.data;
+    const data = parsed.data;
 
-        // Escape HTML (prevents injection in your email template)
-        const safeName = escapeHtml(data.name);
-        const safeEmail = escapeHtml(data.email);
-        const safePhone = escapeHtml(data.phone);
-        const safeSubject = escapeHtml(data.subject);
-        const safeMessage = escapeHtml(data.message).replace(/\n/g, "<br>");
+    // Escape HTML (prevents injection in your email template)
+    const safeName = escapeHtml(data.name);
+    const safeEmail = escapeHtml(data.email);
+    const safePhone = escapeHtml(data.phone);
+    const safeSubject = escapeHtml(data.subject);
+    const safeMessage = escapeHtml(data.message).replace(/\n/g, "<br>");
 
-        const transporter = nodemailer.createTransport({
-            host: "smtppro.zoho.in",
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.hostinger.com",
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
 
-        const to = process.env.CONTACT_RECEIVER;
-        if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !to) {
-            return { success: false, error: "Server not configured." };
-        }
+    const to = process.env.CONTACT_RECEIVER;
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !to) {
+      return { success: false, error: "Server not configured." };
+    }
 
-        await transporter.sendMail({
-            from: `Website General Inquiry <${process.env.SMTP_USER}>`,
-            to,
-            replyTo: data.email,
-            subject: `Website Inquiry — ${data.subject}`,
-            text: [
-                "New website general inquiry (users are instructed not to submit medical info).",
-                "",
-                `Name: ${data.name}`,
-                `Email: ${data.email}`,
-                `Phone: ${data.phone}`,
-                `Subject: ${data.subject}`,
-                "",
-                "Message:",
-                data.message,
-                "",
-                `Sent from: ${siteConfig.name}`,
-            ].join("\n"),
-            html: `
+    await transporter.sendMail({
+      from: `Website General Inquiry <${process.env.SMTP_USER}>`,
+      to,
+      replyTo: data.email,
+      subject: `Website Inquiry — ${data.subject}`,
+      text: [
+        "New website general inquiry (users are instructed not to submit medical info).",
+        "",
+        `Name: ${data.name}`,
+        `Email: ${data.email}`,
+        `Phone: ${data.phone}`,
+        `Subject: ${data.subject}`,
+        "",
+        "Message:",
+        data.message,
+        "",
+        `Sent from: ${siteConfig.name}`,
+      ].join("\n"),
+      html: `
 <div style="background:#f4f7fb;padding:40px 0;font-family:Arial,sans-serif">
   <table align="center" width="100%" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.08)">
     <tr>
@@ -193,11 +193,11 @@ export async function sendGeneralInquiry(
   </table>
 </div>
       `,
-        });
+    });
 
-        return { success: true };
-    } catch {
-        // No logging of user-provided content
-        return { success: false, error: "Server error." };
-    }
+    return { success: true };
+  } catch {
+    // No logging of user-provided content
+    return { success: false, error: "Server error." };
+  }
 }
