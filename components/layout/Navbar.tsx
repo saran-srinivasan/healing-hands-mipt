@@ -55,7 +55,10 @@ function PhoneDropdown({ items }: { items: PhoneItem[] }) {
         )}
       >
         <Phone className="h-4 w-4" />
-        <a href={`tel:${items[0].tel}`} className="hidden lg:inline">
+        <a
+          href={`tel:${items[0].tel}`}
+          className="whitespace-nowrap hidden lg:inline"
+        >
           {items[0].display}
         </a>
         <ChevronDown
@@ -211,8 +214,10 @@ export function Navbar() {
               href="/contact"
               className="hidden lg:inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--color-primary-600)] px-5 py-3 text-base xl:text-[17px] font-semibold text-white shadow-sm transition hover:bg-[var(--color-primary-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2"
             >
-              <CalendarDays className="h-5 w-5" />
-              <span>Request an Appointment</span>
+              <CalendarDays className="h-5 w-5 text-white" />
+              <span className="text-white whitespace-nowrap">
+                Request an Appointment
+              </span>
             </Link>
 
             <button
@@ -301,7 +306,7 @@ export function Navbar() {
                   className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary-600)] px-6 py-4 text-[17px] font-bold text-white shadow-sm transition hover:bg-[var(--color-primary-700)]"
                 >
                   <CalendarDays className="h-5 w-5" />
-                  Request an Appointment
+                  <span className="text-white">Request an Appointment</span>
                 </Link>
               </div>
             </motion.div>
