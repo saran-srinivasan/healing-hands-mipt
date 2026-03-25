@@ -2,6 +2,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { WhyUsSection } from "@/components/sections/WhyUsSection";
 import { ServicesPreviewSection } from "@/components/sections/ServicesPreviewSection";
 import { AboutPreviewSection } from "@/components/sections/AboutPreviewSection";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { CTASection } from "@/components/sections/CTASection";
 
 export default function HomePage() {
@@ -10,6 +11,7 @@ export default function HomePage() {
       <HeroSection />
       <WhyUsSection />
       <ServicesPreviewSection />
+      <TestimonialsSection />
       <AboutPreviewSection />
       <CTASection />
     </>
