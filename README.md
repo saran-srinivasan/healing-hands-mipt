@@ -140,6 +140,7 @@ No environment variables are required for basic deployment. For form submissions
 2. Add a `page.tsx` file with your content
 3. Update navigation in `lib/config.ts`
 
+test update
 ## License
 
 All rights reserved. This website is property of Healing Hands Physical Therapy Associates LLC.
