@@ -51,7 +51,6 @@ export async function getNotifications(): Promise<Notification[]> {
         });
 
         const now = new Date();
-        const currentDateStr = now.toISOString().split("T")[0]; // YYYY-MM-DD for simple comparison
 
         const validNotifications = data
             .filter((row) => {

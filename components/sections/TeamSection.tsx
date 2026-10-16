@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Section, SectionHeading } from "@/components/ui/Section";
+import { Section } from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 import { Award, GraduationCap, BookOpen, Users } from "lucide-react";
 import Image from "next/image";

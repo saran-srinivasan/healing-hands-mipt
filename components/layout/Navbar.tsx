@@ -110,7 +110,9 @@ export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   React.useEffect(() => {
-    setIsOpen(false);
+    requestAnimationFrame(() => {
+      setIsOpen(false);
+    });
   }, [pathname]);
 
   React.useEffect(() => {

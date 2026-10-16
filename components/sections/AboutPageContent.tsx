@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-import { Award, Users, Target, Heart, Check } from "lucide-react";
+import { Award, Users, Target, Heart } from "lucide-react";
 import { TeamSection } from "./TeamSection";
 import { Activity, History, Sparkles } from "lucide-react";
 
@@ -186,7 +186,7 @@ export function AboutPageContent() {
                         {/* Main Headline */}
                         {/* Mobile safe version: Wraps normally on phone, Single line on Tablet/Desktop */}
                         <h2 className="text-xl font-bold text-[var(--color-neutral-900)] mb-6 leading-tight md:whitespace-nowrap">
-                            We don't just treat symptoms <br />
+                            We don&apos;t just treat symptoms <br />
                             <span className="text-[var(--color-primary-600)]">We treat people.</span>
                         </h2>
 
@@ -194,7 +194,7 @@ export function AboutPageContent() {
 
                         {/* The "Hook" - Large Lead Text */}
                         <p className="text-lg md:text-xl font-medium text-[var(--color-neutral-800)] leading-relaxed mb-8">
-                            At {siteConfig.companyInfo.fullName}, we don't just treat symptoms—we treat people. True recovery happens where clinical expertise meets genuine compassion.
+                            At {siteConfig.companyInfo.fullName}, we don&apos;t just treat symptoms—we treat people. True recovery happens where clinical expertise meets genuine compassion.
                         </p>
 
                         {/* Detailed Content with Visual Border */}
@@ -202,7 +202,7 @@ export function AboutPageContent() {
                             <p className="leading-relaxed mb-5 mt-5 py-2">
                                 Our practice is built on a foundation of <strong>cutting-edge research</strong> and evidence-based techniques, ensuring you receive the most advanced care available today. But data is only half the story.
                             </p>
-                            <p className="leading-relaxed mb-5 mt-5 py-2">However, we know that data is only half the story. That's why we combine our clinical expertise with a personal touch, crafting a tailor-made recovery plan designed specifically for your unique goals and lifestyle.</p>
+                            <p className="leading-relaxed mb-5 mt-5 py-2">However, we know that data is only half the story. That&apos;s why we combine our clinical expertise with a personal touch, crafting a tailor-made recovery plan designed specifically for your unique goals and lifestyle.</p>
                             <p className="leading-relaxed mb-5 mt-5 py-2">When you walk through our doors, you can expect the same exceptional quality of service that you have known and trusted at <strong>Alternative Rehab for over 25 years.</strong> We are carrying forward that legacy of excellence, commitment, and community—now enhanced by modern innovations to help you move better, feel stronger, and live pain-free.</p>
                         </div>
 

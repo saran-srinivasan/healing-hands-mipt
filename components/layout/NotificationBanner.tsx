@@ -18,7 +18,9 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
 
   useEffect(() => {
     if (sessionStorage.getItem("clinic-banner-dismissed") === "true") {
-      setVisible(false);
+      requestAnimationFrame(() => {
+        setVisible(false);
+      });
     }
   }, []);
 
