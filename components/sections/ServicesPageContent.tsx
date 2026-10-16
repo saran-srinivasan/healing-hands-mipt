@@ -176,7 +176,9 @@ export function ServicesPageContent() {
             if (hash) {
                 // If hash exists, open that specific service
                 if (siteConfig.services.some((s) => s.id === hash)) {
-                    setOpenServiceId(hash);
+                    requestAnimationFrame(() => {
+                        setOpenServiceId(hash);
+                    });
 
                     // Add a small delay to ensure DOM is ready and accordion starts opening
                     setTimeout(() => {

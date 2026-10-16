@@ -85,7 +85,7 @@ export async function sendGeneralInquiry(
 
     const parsed = schema.safeParse({
       ...raw,
-      noMedicalInfoAck: raw.noMedicalInfoAck === true ? true : (false as any),
+      noMedicalInfoAck: raw.noMedicalInfoAck === true ? true : false,
     });
 
     if (!parsed.success) {
@@ -94,11 +94,12 @@ export async function sendGeneralInquiry(
 
     const data = parsed.data;
 
-    // Escape HTML (prevents injection in your email template)
+    // Escape HTML and sanitize email subject against CRLF injection
     const safeName = escapeHtml(data.name);
     const safeEmail = escapeHtml(data.email);
     const safePhone = escapeHtml(data.phone);
-    const safeSubject = escapeHtml(data.subject);
+    const cleanSubject = data.subject.replace(/[\r\n]+/g, " ").trim();
+    const safeSubject = escapeHtml(cleanSubject);
     const safeMessage = escapeHtml(data.message).replace(/\n/g, "<br>");
 
     const transporter = nodemailer.createTransport({
@@ -120,14 +121,14 @@ export async function sendGeneralInquiry(
       from: `Website General Inquiry <${process.env.SMTP_USER}>`,
       to,
       replyTo: data.email,
-      subject: `Website Inquiry — ${data.subject}`,
+      subject: `Website Inquiry — ${cleanSubject}`,
       text: [
         "New website general inquiry (users are instructed not to submit medical info).",
         "",
         `Name: ${data.name}`,
         `Email: ${data.email}`,
         `Phone: ${data.phone}`,
-        `Subject: ${data.subject}`,
+        `Subject: ${cleanSubject}`,
         "",
         "Message:",
         data.message,

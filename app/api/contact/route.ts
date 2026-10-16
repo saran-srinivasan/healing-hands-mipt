@@ -78,11 +78,12 @@ export async function POST(req: Request) {
             return Response.json({ ok: true });
         }
 
-        // Build safe HTML
+        // Build safe HTML and sanitize headers
         const safeName = escapeHtml(data.name);
         const safeEmail = escapeHtml(data.email);
         const safePhone = escapeHtml(data.phone);
-        const safeSubject = escapeHtml(data.subject);
+        const cleanSubject = data.subject.replace(/[\r\n]+/g, " ").trim();
+        const safeSubject = escapeHtml(cleanSubject);
         const safeMessage = escapeHtml(data.message).replace(/\n/g, "<br>");
 
         const transporter = nodemailer.createTransport({
@@ -104,14 +105,14 @@ export async function POST(req: Request) {
             from: `Website General Inquiry <${process.env.SMTP_USER}>`,
             to,
             replyTo: data.email,
-            subject: `Website Inquiry — ${safeSubject}`,
+            subject: `Website Inquiry — ${cleanSubject}`,
             text: [
                 "New website general inquiry (no medical info requested).",
                 "",
                 `Name: ${data.name}`,
                 `Email: ${data.email}`,
                 `Phone: ${data.phone}`,
-                `Subject: ${data.subject}`,
+                `Subject: ${cleanSubject}`,
                 "",
                 "Message:",
                 data.message,
